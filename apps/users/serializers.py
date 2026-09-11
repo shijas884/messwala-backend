@@ -17,6 +17,10 @@ class UserCreateSerializer(ModelSerializer):
         if user.role_type == User.Role.ADMIN:
             if value != User.Role.OWNER:
                 raise  serializers.ValidationError('Admin can only create Owner')
+        # OWNER
+        if user.role_type == User.Role.OWNER:
+            if value == User.Role.ADMIN:
+                raise serializers.ValidationError('Owner can create only Customer, Delivery-Boy ')
 
         return value
 
