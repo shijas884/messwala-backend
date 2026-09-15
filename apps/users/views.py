@@ -10,6 +10,17 @@ class UserListCreateView(ListCreateAPIView):
             return UserCreateSerializer
         return UserListSerializer
     
-    queryset = User.objects.all()
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.role_type == User.Role.ADMIN:
+            return User.objects.all()
+
+        return User.objects.none
+
+
+
+
+        
 
 
