@@ -8,7 +8,14 @@ class UserCreateSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = [
+            'username',
+            'first_name',
+            'email',
+            'password',
+            'role_type'
+        ]
+        extra_kwargs = {'password': {'write_ony: True'}}
 
     def validated_role_type(self, value):
         user = self.context['request'].user
