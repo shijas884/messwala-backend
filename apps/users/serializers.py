@@ -16,7 +16,6 @@ class UserCreateSerializer(ModelSerializer):
             'role_type'
         ]
         extra_kwargs = {'password': {'write_ony: True'}}
-        extra_kwargs = {'role_type': {'write_ony: True'}}
 
 
     def validated_role_type(self, value):
