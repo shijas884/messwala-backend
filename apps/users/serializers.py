@@ -37,10 +37,5 @@ class UserListSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = [
-            'id',
-            'username',
-            'first_name',
-            'email',
-            'role_type',
-        ]
+        fields = '__all__'
+    
