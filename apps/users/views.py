@@ -1,22 +1,31 @@
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import User
-from .serializers import UserCreateSerializer,UserListSerializer
+from .serializers import LoginUserSerializer
 
 
-class UserListCreateView(ListCreateAPIView):
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return UserCreateSerializer
-        return UserListSerializer
-    
-    def get_queryset(self):
-        user = self.request.user
+class LoginUserView(APIView):
 
-        if user.role_type == User.Role.ADMIN:
-            return User.objects.all()
+    def post(self, request):
+        log_serializer = LoginUserSerializer(request.data)
 
-        return User.objects.none
+        if log_serializer.is_valid():
+            return Response(
+                {
+                    'access' : log_serializer.validated_data['access'],
+                    'refresh' : log_serializer.validated_data['refresh'],
+                    'username' : log_serializer.validated_data['user'].username,
+                },
+                status=status.HTTP_200_OK
+            )
+        return Response(
+            log_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+        
+
 
 
 
