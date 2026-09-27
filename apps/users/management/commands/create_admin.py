@@ -23,7 +23,7 @@ class Command(BaseCommand):
             username=username,
             email=email,
             password=password,
-            role_type = 'ADMID'
+            role_type = 'ADMIN'
         )
 
         self.stdout.write('Admin create successfully')

@@ -34,3 +34,28 @@ class LoginUserSerializer(Serializer):
         return attrs
 
 
+class UserCreateSerializer(ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = '__all__'
+
+    def validate_role_type(self, value):
+        user = self.context['request'].user
+
+        if user.role_type == User.Role.ADMIN:
+            if value != User.Role.OWNER:
+                raise serializers.ValidationError(
+                    'Admin can only create Owner'
+                )
+
+        return value
+
+    def create(self, validated_data):
+        validated_data['created_by'] = self.context['request'].user
+        return User.objects.create_user(**validated_data)
+    
+
+        
+
+        

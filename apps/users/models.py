@@ -12,8 +12,6 @@ class User(AbstractUser):
 
 
     role_type = models.CharField(max_length=15, choices=Role.choices)
-
-
-    
-
-    
+    contact_number = models.CharField(max_length=15)
+    address = models.TextField()
+    created_by = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
