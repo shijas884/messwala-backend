@@ -1,9 +1,9 @@
 from rest_framework.generics import CreateAPIView,ListAPIView
 from django.shortcuts import get_object_or_404
 
-from .serializers import DeliveryBoyCreateSerializer
+from .serializers import DeliveryBoyCreateSerializer,DeliveryBoyListSerializer
 from apps.mess.models import Mess
-from apps.users.models import DeliveryBoy
+from .models import DeliveryBoy
 from apps.users.permissions import IsOwnerRole
 
 
@@ -13,7 +13,6 @@ class DeliveryBoyCreateView(CreateAPIView):
     permission_classes = [IsOwnerRole]
 
     def get_serializer_context(self):
-        print('views -1')
 
         context = super().get_serializer_context()
 
@@ -27,3 +26,12 @@ class DeliveryBoyCreateView(CreateAPIView):
         return context
 
 
+class DeliveryBoyListView(ListAPIView):
+    serializer_class = DeliveryBoyListSerializer
+    permission_classes = [IsOwnerRole]
+
+    def get_queryset(self):
+        user = self.request.user
+        return DeliveryBoy.objects.filter(
+            mess__owner = user
+        )

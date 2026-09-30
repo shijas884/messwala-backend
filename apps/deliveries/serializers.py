@@ -1,7 +1,8 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
-from apps.users.models import User, DeliveryBoy
+from apps.users.models import User
+from .models import DeliveryBoy
 
 class DeliveryBoyCreateSerializer(ModelSerializer):
     username = serializers.CharField(write_only=True)
@@ -44,3 +45,9 @@ class DeliveryBoyCreateSerializer(ModelSerializer):
         )
 
         return delivery_boy
+
+class DeliveryBoyListSerializer(ModelSerializer):
+
+    class Meta:
+        model = DeliveryBoy
+        fields = '__all__'
