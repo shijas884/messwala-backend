@@ -1,9 +1,10 @@
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView,ListAPIView
 from  django.shortcuts import get_object_or_404
 
-from .serializers import CustomerCreateSerializer
+from .serializers import CustomerCreateSerializer,CustomerListSerializer
 from apps.users.permissions import IsOwnerRole
 from apps.mess.models import Mess
+from .models import Customer
 class CustomerCreateView(CreateAPIView):
     permission_classes = [IsOwnerRole]
     serializer_class = CustomerCreateSerializer
@@ -21,3 +22,12 @@ class CustomerCreateView(CreateAPIView):
 
         return context
     
+class CustomerListView(ListAPIView):
+    serializer_class = CustomerListSerializer
+    permission_classes = [IsOwnerRole]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Customer.objects.filter(
+            mess__owner = user
+        )

@@ -45,4 +45,9 @@ class CustomerCreateSerializer(ModelSerializer):
         )
 
         return custmoer
-    
+
+class CustomerListSerializer(ModelSerializer):
+
+    class Meta:
+        model = Customer
+        fields = '__all__'
