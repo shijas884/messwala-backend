@@ -21,9 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/',include('apps.users.urls')),
     path('v1/',include('apps.mess.urls')),
-    path('v1/',include('apps.customers.urls')),
     path('v1/',include('apps.deliveries.urls')),
-
-
-
+    path('v1/',include('apps.customers.urls')),
+    path('v1/',include('apps.meals.urls')),
+    path('v1/',include('apps.subscriptions.urls')),
+    path('v1/',include('apps.billing.urls')),
 ]
