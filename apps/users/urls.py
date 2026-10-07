@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import(
 
 from .views import (
     LoginUserView,
-    UserListCreateView
+    OwnerListCreateView
 )
 
 urlpatterns = [
@@ -13,5 +13,5 @@ urlpatterns = [
 
     path('login/', LoginUserView.as_view()),
 
-    path('users/', UserListCreateView.as_view()),
+    path('owner/', OwnerListCreateView.as_view()),
 ]

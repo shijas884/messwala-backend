@@ -34,11 +34,25 @@ class LoginUserSerializer(Serializer):
         return attrs
 
 
-class UserCreateSerializer(ModelSerializer):
+class OwnerListCreateSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = (
+            'id',
+            'username',
+            'password',
+            'first_name',
+            'last_name',
+            'role_type',
+            'created_by',
+            'contact_number',
+            'address'
+        )
+        extra_kwargs = {
+            'password': {'write_only': True, 'required' : False},
+            'id' : {'read_only': True}
+        }
 
     def validate_role_type(self, value):
         user = self.context['request'].user
@@ -55,7 +69,6 @@ class UserCreateSerializer(ModelSerializer):
         validated_data['created_by'] = self.context['request'].user
         return User.objects.create_user(**validated_data)
     
-
         
 
         

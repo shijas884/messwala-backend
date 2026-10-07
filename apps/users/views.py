@@ -1,12 +1,12 @@
 from rest_framework.generics import ListCreateAPIView
-from rest_framework.views import APIView
+from rest_framework.views import APIView,Response,status
 from rest_framework.response import Response
 from rest_framework import status
 
 from .models import User
 from .serializers import (
     LoginUserSerializer,
-    UserCreateSerializer,
+    OwnerListCreateSerializer,
 )
 from .permissions import IsAdminRole, IsOwnerRole
 
@@ -30,16 +30,29 @@ class LoginUserView(APIView):
         )
 
 
-class UserListCreateView(ListCreateAPIView):
+class OwnerListCreateView(ListCreateAPIView):
+
+    
+    serializer_class = OwnerListCreateSerializer
 
     def get_permissions(self):
+       if self.request.method == 'POST':
+           return [IsAdminRole()]
+       return [(IsAdminRole | IsOwnerRole)()]
 
-        if self.request.method == 'POST':
-            return [(IsAdminRole | IsAdminRole )()]
-        return [(IsAdminRole | IsAdminRole )()]
+    def get_queryset(self):
+        user = self.request.user
 
-    serializer_class = UserCreateSerializer
-    queryset = User.objects.all()
+        if user.role_type == User.Role.ADMIN:
+            return User.objects.all()
+
+        if user.role_type == User.Role.OWNER:
+            return User.objects.filter(
+                created_by = user
+
+            )
+        
+        return User.objects.none()
 
 
 
