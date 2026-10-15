@@ -3,3 +3,4 @@ djangorestframework==3.18.0
 djangorestframework_simplejwt==5.5.1
 python-dotenv==1.2.3
 psycopg2-binary==2.9.13
+uritemplate==4.2.0
